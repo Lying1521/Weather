@@ -2,6 +2,8 @@ package com.myapplication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -9,5 +11,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initView();
+        initEvents();
+        parasDate();
+    }
+
+    private void initView() {
+
+    }
+
+    private void initEvents() {
+
+    }
+
+    private void parasDate() {
+        CheckNetStatus();
+    }
+
+    private void CheckNetStatus() {
+        if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE){
+            Log.d("myWeather", "网络OK");
+            Toast.makeText(MainActivity.this,"网络OK!", Toast.LENGTH_LONG).show();
+        }else{
+            Log.d("myWeather", "网络挂了");
+            Toast.makeText(MainActivity.this,"网络挂了!", Toast.LENGTH_LONG).show();
+        }
     }
 }
