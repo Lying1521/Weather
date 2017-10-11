@@ -6,6 +6,6 @@ package com.myapplication;
  */
 
 public interface NetWorkCallBack {
-    public void Success();
-    public void Failure();
+    public void Success(String response);
+    public void Failure(String response);
 }
