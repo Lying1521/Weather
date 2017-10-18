@@ -16,6 +16,8 @@ import java.io.StringReader;
  */
 
 public class Utils {
+    public static int ResultFromSelectActivity = 0 ;
+    public static String City_Code = "city_code";
     private static SharedPreferences sharedPreferences;
     private static Context MyContext;
 
@@ -31,11 +33,11 @@ public class Utils {
         editor.commit();
     }
 
-    public static String ReadString(String code) {
+    public static String ReadString(String key,String defaultString) {
         if(sharedPreferences == null){
             sharedPreferences = MyContext.getSharedPreferences("Weather",Context.MODE_PRIVATE);
         }
-        return  sharedPreferences.getString(code,"no history");
+        return  sharedPreferences.getString(key,defaultString);
     }
 
     public static WeatherInfo parseDate(String xml) {

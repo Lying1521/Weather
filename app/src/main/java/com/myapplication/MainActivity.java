@@ -1,5 +1,6 @@
 package com.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,7 +13,7 @@ public class MainActivity extends AppCompatActivity implements NetWorkCallBack, 
 
     private TextView title,city,time,humidity,temperature_now,week_today,temperature_today,climate,wind,pm_data,pm_quality;
     private ImageView manager,location,share,update,pm25_img,weather_img;
-    private String code = "101010100";
+    private String code ;
     private WeatherInfo weatherinfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,11 @@ public class MainActivity extends AppCompatActivity implements NetWorkCallBack, 
 
     private void initEvents() {
         update.setOnClickListener(this);
+        findViewById(R.id.city_manager).setOnClickListener(this);
 
     }
     private void GetLocalDate() {
-        String localweatherinfo = Utils.ReadString(code);
+        String localweatherinfo = Utils.ReadString(code,"no history");
         if(localweatherinfo.equals("no history")){
             title.setText("N/A");
             city.setText("N/A");
@@ -73,11 +75,10 @@ public class MainActivity extends AppCompatActivity implements NetWorkCallBack, 
     }
     private void GetWeatherInfo() {
         NetUtil.GerRequest(code,this);
-
-
     }
 
     private void CheckNetStatus() {
+        code = Utils.ReadString(Utils.City_Code,"101010100");
         if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE){
             Log.d("myWeather", "网络OK");
             GetWeatherInfo();
@@ -201,6 +202,19 @@ public class MainActivity extends AppCompatActivity implements NetWorkCallBack, 
             case R.id.city_update:
                 CheckNetStatus();
                 break;
+            case R.id.city_manager:
+                startActivityForResult(new Intent(this,SelectCityActivity.class),Utils.ResultFromSelectActivity);
+                break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if( requestCode == Utils.ResultFromSelectActivity && resultCode == RESULT_OK){
+            code = data.getStringExtra(Utils.City_Code);
+            Utils.SaveString(Utils.City_Code,code);
+            CheckNetStatus();
+        }
+
     }
 }
