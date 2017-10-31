@@ -1,11 +1,13 @@
 package com.myapplication;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 
-public class SelectCityActivity extends AppCompatActivity implements View.OnClickListener{
+public class SelectCityActivity extends Activity implements View.OnClickListener{
+    private String citycode = "101160101";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +22,7 @@ public class SelectCityActivity extends AppCompatActivity implements View.OnClic
         switch (id){
             case R.id.title_back:
                 Intent i = new Intent();
-                i.putExtra(Utils.City_Code,"101160101");
+                i.putExtra(Utils.City_Code,citycode);
                 setResult(RESULT_OK,i);
                 finish();
                 break;

@@ -115,5 +115,83 @@ public class Utils {
         }
         return  weatherinfo;
     }
+
+    public static int GetWertherImg(String climate){
+        if(climate.equals("暴雪")){
+            return(R.mipmap.biz_plugin_weather_baoxue);
+        }
+        if(climate.equals("暴雨")){
+            return(R.mipmap.biz_plugin_weather_baoyu);
+        }
+        if(climate.equals("大暴雨")){
+            return(R.mipmap.biz_plugin_weather_dabaoyu);
+        }
+        if(climate.equals("大雪")){
+            return(R.mipmap.biz_plugin_weather_daxue);
+        }
+        if(climate.equals("大雨")){
+            return(R.mipmap.biz_plugin_weather_dayu);
+        }
+        if(climate.equals("多云")){
+            return(R.mipmap.biz_plugin_weather_duoyun);
+        }
+        if(climate.equals("雷阵雨")){
+            return(R.mipmap.biz_plugin_weather_leizhenyu);
+        }
+        if(climate.equals("雷阵雨冰雹")){
+            return(R.mipmap.biz_plugin_weather_leizhenyubingbao);
+        }
+        if(climate.equals("晴")){
+            return(R.mipmap.biz_plugin_weather_qing);
+        }
+        if(climate.equals("沙尘暴")){
+            return(R.mipmap.biz_plugin_weather_shachenbao);
+        }
+        if(climate.equals("特大暴雨")){
+            return(R.mipmap.biz_plugin_weather_tedabaoyu);
+        }
+        if(climate.equals("雾")){
+            return(R.mipmap.biz_plugin_weather_wu);
+        }
+        if(climate.equals("小雪")){
+            return(R.mipmap.biz_plugin_weather_xiaoxue);
+        }
+        if(climate.equals("小雨")){
+            return(R.mipmap.biz_plugin_weather_xiaoyu);
+        }
+        if(climate.equals("阴")){
+            return(R.mipmap.biz_plugin_weather_yin);
+        }
+        if(climate.equals("雨加雪")){
+            return(R.mipmap.biz_plugin_weather_yujiaxue);
+        }
+        if(climate.equals("阵雪")){
+            return(R.mipmap.biz_plugin_weather_zhenxue);
+        }
+        if(climate.equals("阵雨")){
+            return(R.mipmap.biz_plugin_weather_zhenyu);
+        }
+        if(climate.equals("中雪")){
+            return(R.mipmap.biz_plugin_weather_zhongxue);
+        }if(climate.equals("中雨")){
+            return(R.mipmap.biz_plugin_weather_zhongyu);
+        }
+        return 0;
+    }
+    public static int GetPmImg(int pm25){
+        if(pm25<51){
+            return (R.mipmap.biz_plugin_weather_0_50);
+        }else if(pm25<101){
+            return (R.mipmap.biz_plugin_weather_51_100);
+        }else if(pm25<151){
+            return (R.mipmap.biz_plugin_weather_101_150);
+        }else if(pm25<201){
+            return (R.mipmap.biz_plugin_weather_151_200);
+        }else if(pm25<301){
+            return (R.mipmap.biz_plugin_weather_201_300);
+        }else{
+            return (R.mipmap.biz_plugin_weather_greater_300);
+        }
+    }
 }
 

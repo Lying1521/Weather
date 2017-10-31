@@ -1,15 +1,15 @@
 package com.myapplication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements NetWorkCallBack, View.OnClickListener {
+public class MainActivity extends Activity implements NetWorkCallBack, View.OnClickListener {
 
     private TextView title,city,time,humidity,temperature_now,week_today,temperature_today,climate,wind,pm_data,pm_quality;
     private ImageView manager,location,share,update,pm25_img,weather_img;
@@ -105,80 +105,9 @@ public class MainActivity extends AppCompatActivity implements NetWorkCallBack, 
         climate.setText(weatherinfo.getType());
         wind.setText("风力:"+weatherinfo.getFengli());
         int pm25 = Integer.valueOf(weatherinfo.getPm25());
-        if(pm25<51){
-            pm25_img.setImageResource(R.mipmap.biz_plugin_weather_0_50);
-        }else if(pm25<101){
-            pm25_img.setImageResource(R.mipmap.biz_plugin_weather_51_100);
-        }else if(pm25<151){
-            pm25_img.setImageResource(R.mipmap.biz_plugin_weather_101_150);
-        }else if(pm25<201){
-            pm25_img.setImageResource(R.mipmap.biz_plugin_weather_151_200);
-        }else if(pm25<301){
-            pm25_img.setImageResource(R.mipmap.biz_plugin_weather_201_300);
-        }else{
-            pm25_img.setImageResource(R.mipmap.biz_plugin_weather_greater_300);
-        }
+        pm25_img.setImageResource(Utils.GetPmImg(pm25));
         String climate = weatherinfo.getType();
-        if(climate.equals("暴雪")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_baoxue);
-        }
-        if(climate.equals("暴雨")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_baoyu);
-        }
-        if(climate.equals("大暴雨")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_dabaoyu);
-        }
-        if(climate.equals("大雪")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_daxue);
-        }
-        if(climate.equals("大雨")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_dayu);
-        }
-        if(climate.equals("多云")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_duoyun);
-        }
-        if(climate.equals("雷阵雨")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_leizhenyu);
-        }
-        if(climate.equals("雷阵雨冰雹")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_leizhenyubingbao);
-        }
-        if(climate.equals("晴")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_qing);
-        }
-        if(climate.equals("沙尘暴")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_shachenbao);
-        }
-        if(climate.equals("特大暴雨")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_tedabaoyu);
-        }
-        if(climate.equals("雾")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_wu);
-        }
-        if(climate.equals("小雪")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_xiaoxue);
-        }
-        if(climate.equals("小雨")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_xiaoyu);
-        }
-        if(climate.equals("阴")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_yin);
-        }
-        if(climate.equals("雨加雪")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_yujiaxue);
-        }
-        if(climate.equals("阵雪")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_zhenxue);
-        }
-        if(climate.equals("阵雨")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_zhenyu);
-        }
-        if(climate.equals("中雪")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_zhongxue);
-        }
-        if(climate.equals("中雨")){
-            weather_img.setImageResource(R.mipmap.biz_plugin_weather_zhongyu);
-        }
+        weather_img.setImageResource(Utils.GetWertherImg(climate));
         Toast.makeText(MainActivity.this,"更新成功!",Toast.LENGTH_SHORT).show();
 
     }
