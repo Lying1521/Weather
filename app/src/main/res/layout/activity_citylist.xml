@@ -32,9 +32,19 @@
             android:background="#A71717"
             android:gravity="center" />
     </RelativeLayout>
-    <android.support.v7.app.wi
+    <EditText
+        android:id="@+id/city_search"
+        android:layout_width="fill_parent"
+        android:layout_height="60.0dip"
+        android:layout_margin="10dp"
+        android:hint="请输入城市名"
+        android:singleLine="true"
+        android:textSize="20dp"
+        android:drawableLeft="@android:drawable/ic_search_category_default"/>
+    <ListView
+        android:id="@+id/city_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </android.support.v7.app.wi>
+    </ListView>
 </LinearLayout>

@@ -19,8 +19,6 @@ public class MainActivity extends Activity implements NetWorkCallBack, View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Utils.initContext(this);
-        NetUtil.initHttpManager(this);
         initView();
         initEvents();
         CheckNetStatus();
@@ -91,24 +89,28 @@ public class MainActivity extends Activity implements NetWorkCallBack, View.OnCl
     }
 
 
-    private void updateUI() {
+    private void updateUI()  {
 
-        title.setText(weatherinfo.getCity()+"天气");
-        city.setText(weatherinfo.getCity());
-        time.setText(weatherinfo.getUpdatetime()+ "发布");
-        humidity.setText("湿度:"+weatherinfo.getShidu());
-        temperature_now.setText("温度:"+weatherinfo.getWendu()+"°C");
-        pm_data.setText(weatherinfo.getPm25());
-        pm_quality.setText(weatherinfo.getQuality());
-        week_today.setText(weatherinfo.getDate());
-        temperature_today.setText(weatherinfo.getHigh()+"~"+weatherinfo.getLow());
-        climate.setText(weatherinfo.getType());
-        wind.setText("风力:"+weatherinfo.getFengli());
-        int pm25 = Integer.valueOf(weatherinfo.getPm25());
-        pm25_img.setImageResource(Utils.GetPmImg(pm25));
-        String climate = weatherinfo.getType();
-        weather_img.setImageResource(Utils.GetWertherImg(climate));
-        Toast.makeText(MainActivity.this,"更新成功!",Toast.LENGTH_SHORT).show();
+        try {
+            title.setText(weatherinfo.getCity()+"天气");
+            city.setText(weatherinfo.getCity());
+            time.setText(weatherinfo.getUpdatetime()+ "发布");
+            humidity.setText("湿度:"+weatherinfo.getShidu());
+            temperature_now.setText("温度:"+weatherinfo.getWendu()+"°C");
+            pm_data.setText(weatherinfo.getPm25());
+            pm_quality.setText(weatherinfo.getQuality());
+            week_today.setText(weatherinfo.getDate());
+            temperature_today.setText(weatherinfo.getHigh()+"~"+weatherinfo.getLow());
+            climate.setText(weatherinfo.getType());
+            wind.setText("风力:"+weatherinfo.getFengli());
+            int pm25 = Integer.valueOf(weatherinfo.getPm25());
+            pm25_img.setImageResource(Utils.GetPmImg(pm25));
+            String climate = weatherinfo.getType();
+            weather_img.setImageResource(Utils.GetWertherImg(climate));
+            Toast.makeText(MainActivity.this,"更新成功!",Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            Toast.makeText(MainActivity.this,"更新成功!",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -132,7 +134,9 @@ public class MainActivity extends Activity implements NetWorkCallBack, View.OnCl
                 CheckNetStatus();
                 break;
             case R.id.city_manager:
-                startActivityForResult(new Intent(this,SelectCityActivity.class),Utils.ResultFromSelectActivity);
+                Intent i = new Intent(this,SelectCityActivity.class);
+                i.putExtra("city_name",weatherinfo.getCity());
+                startActivityForResult(i,Utils.ResultFromSelectActivity);
                 break;
         }
     }

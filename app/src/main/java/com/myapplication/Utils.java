@@ -2,14 +2,21 @@ package com.myapplication;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Environment;
+import android.util.Log;
 
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by liyu on 17/10/11.
@@ -20,6 +27,9 @@ public class Utils {
     public static String City_Code = "city_code";
     private static SharedPreferences sharedPreferences;
     private static Context MyContext;
+    public static List<CityInfo> City_list;
+    private static CityDB db;
+
 
     public static void initContext(Context context){
         MyContext = context;
@@ -192,6 +202,47 @@ public class Utils {
         }else{
             return (R.mipmap.biz_plugin_weather_greater_300);
         }
+    }
+
+    public static void GetCityList(Context applicationContext) {
+        db = openCityDB(applicationContext);
+        City_list = db.getAllCity();
+    }
+    private static  CityDB openCityDB(Context applicationContext) {
+        String path = "/data" + Environment.getDataDirectory().getAbsolutePath()
+                + File.separator + applicationContext.getPackageName()
+                + File.separator + "databases1"
+                + File.separator
+                + CityDB.CITY_DB_NAME;
+        File db = new File(path);
+        if (!db.exists()) {
+            String pathfolder = "/data"
+                    + Environment.getDataDirectory().getAbsolutePath()
+                    + File.separator + applicationContext.getPackageName()
+                    + File.separator + "databases1"
+                    + File.separator;
+            File dirFirstFolder = new File(pathfolder);
+            if(!dirFirstFolder.exists()){
+                dirFirstFolder.mkdirs();
+                Log.i("MyApp","mkdirs");
+            }
+            Log.i("MyApp","db is not exists");
+            try {
+                InputStream is = applicationContext.getAssets().open("city.db");
+                FileOutputStream fos = new FileOutputStream(db);
+                int len = -1;
+                byte[] buffer = new byte[1024];
+                while ((len = is.read(buffer)) != -1) {
+                    fos.write(buffer, 0, len);
+                    fos.flush();
+                }
+                fos.close();
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(0);
+            } }
+        return new CityDB(applicationContext, path);
     }
 }
 
