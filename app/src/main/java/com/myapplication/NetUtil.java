@@ -27,7 +27,7 @@ public class NetUtil {
             mQueue = Volley.newRequestQueue(context);
         }
     }
-    public static void GerRequest(String code,  final NetWorkCallBack callback){
+    public static void GerRequest(String code,  final NetWorkCallBack callback){//get请求
         MyStringRequest mStringRequest = new MyStringRequest(Request.Method.GET,URL+code,
                 new Response.Listener<String>(){
                     @Override

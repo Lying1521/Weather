@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by liyu on 2017/10/25.
+ * 城市列表适配器
  */
 
 public class SelectAdapter  extends BaseAdapter{

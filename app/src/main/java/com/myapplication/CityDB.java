@@ -22,13 +22,14 @@ public class CityDB {
     private static final String CITY_TABLE_NAME = "city";
     private SQLiteDatabase db;
     public CityDB(Context context, String path) {
+        //数据库连接函数
         db = context.openOrCreateDatabase(path, Context.MODE_PRIVATE, null);
     }
     public List<CityInfo> getAllCity() {
+        //从数据库文件逐条取出城市信息
         List<CityInfo> list = new ArrayList<CityInfo>();
         Cursor c = db.rawQuery("SELECT * from " + CITY_TABLE_NAME, null);
         while (c.moveToNext()) {
-
             String province = c.getString(c.getColumnIndex("province"));
             String city = c.getString(c.getColumnIndex("city"));
             String number = c.getString(c.getColumnIndex("number"));

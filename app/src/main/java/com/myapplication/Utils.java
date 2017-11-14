@@ -51,13 +51,12 @@ public class Utils {
     }
 
     public static WeatherInfo parseDate(String xml) {
-        int fengxiangCount = 0;
-        int fengliCount = 0;
-        int dateCount = 0;
-        int highCount = 0;
-        int lowCount = 0;
-        int typeCount = 0;
+        //利用push解析xml文件
+        int count = 0;
         WeatherInfo weatherinfo = new WeatherInfo();
+        WeatherInfo.Day yesterday = null;
+        WeatherInfo.Day weekday = null;
+        ArrayList<WeatherInfo.Day> forecast = null;
         try {
             XmlPullParserFactory fac = XmlPullParserFactory.newInstance();
             XmlPullParser xmlPullParser = fac.newPullParser();
@@ -67,7 +66,7 @@ public class Utils {
                 switch (eventType) {
                     case XmlPullParser.START_DOCUMENT:
                         break;
-                    case XmlPullParser.START_TAG:
+                    case XmlPullParser.START_TAG://判断标记
                         if (xmlPullParser.getName().equals("city")) {
                             eventType = xmlPullParser.next();
                             weatherinfo.setCity(xmlPullParser.getText());
@@ -86,34 +85,56 @@ public class Utils {
                         } else if (xmlPullParser.getName().equals("quality")) {
                             eventType = xmlPullParser.next();
                             weatherinfo.setQuality(xmlPullParser.getText());
-                        }else if (xmlPullParser.getName().equals("fengxiang") && fengxiangCount == 0) {
+                        }else if (xmlPullParser.getName().equals("yesterday")) {
+                            yesterday = new WeatherInfo.Day();
+                        }else if(xmlPullParser.getName().equals("forecast")){
+                            forecast = new ArrayList<>();
+                        }else if (xmlPullParser.getName().equals("fl_1")) {
                             eventType = xmlPullParser.next();
-                            weatherinfo.setFengxiang(xmlPullParser.getText());
-                            fengxiangCount++;
-                        }else if (xmlPullParser.getName().equals("fengli") && fengliCount == 0) {
+                            yesterday.setFengli(xmlPullParser.getText());
+                        } else if (xmlPullParser.getName().equals("date_1")) {
                             eventType = xmlPullParser.next();
-                            weatherinfo.setFengli(xmlPullParser.getText());
-                            fengliCount++;
-                        } else if (xmlPullParser.getName().equals("date") && dateCount == 0) {
-                            eventType = xmlPullParser.next();
-                            weatherinfo.setDate(xmlPullParser.getText());
-                            dateCount++;
-                        } else if (xmlPullParser.getName().equals("high") && highCount == 0) {
+                            yesterday.setDate(xmlPullParser.getText());
+                        } else if (xmlPullParser.getName().equals("high_1") ) {
                             eventType = xmlPullParser.next();
                             String str = xmlPullParser.getText().replace("高温","");
-                            weatherinfo.setHigh(str);
-                            highCount++;
-                        } else if (xmlPullParser.getName().equals("low") && lowCount == 0) {
+                            yesterday.setHigh(str);
+                        } else if (xmlPullParser.getName().equals("low_1") ) {
                             eventType = xmlPullParser.next();
-                            weatherinfo.setLow(xmlPullParser.getText().replace("低温",""));
-                            lowCount++;
-                        } else if (xmlPullParser.getName().equals("type") && typeCount == 0) {
+                            yesterday.setLow(xmlPullParser.getText().replace("低温",""));
+                        } else if (xmlPullParser.getName().equals("type_1")) {
                             eventType = xmlPullParser.next();
-                            weatherinfo.setType(xmlPullParser.getText());
-                            typeCount++;
+                            yesterday.setType(xmlPullParser.getText());
+                        }else if(xmlPullParser.getName().equals("weather")){
+                            weekday = new WeatherInfo.Day();
+                            Log.d("myweather","new day");
+                            count++;
+                        } else if (xmlPullParser.getName().equals("fengli" )&& count!=0) {
+                            eventType = xmlPullParser.next();
+                            weekday.setFengli(xmlPullParser.getText());
+                        } else if (xmlPullParser.getName().equals("date")) {
+                            eventType = xmlPullParser.next();
+                            weekday.setDate(xmlPullParser.getText());
+                        } else if (xmlPullParser.getName().equals("high") ) {
+                            eventType = xmlPullParser.next();
+                            String str = xmlPullParser.getText().replace("高温","");
+                            weekday.setHigh(str);
+                        } else if (xmlPullParser.getName().equals("low") ) {
+                            eventType = xmlPullParser.next();
+                            weekday.setLow(xmlPullParser.getText().replace("低温",""));
+                        } else if (xmlPullParser.getName().equals("type")) {
+                            eventType = xmlPullParser.next();
+                            weekday.setType(xmlPullParser.getText());
                         }
                         break;
-                    case XmlPullParser.END_TAG:
+                    case XmlPullParser.END_TAG: //处理结束标记
+                        if(xmlPullParser.getName().equals("yesterday")){
+                            weatherinfo.setYesterday(yesterday);
+                        }else if(xmlPullParser.getName().equals("weather")){
+                            forecast.add(weekday);
+                        }else if(xmlPullParser.getName().equals("forecast")){
+                            weatherinfo.setDays(forecast);
+                        }
                         break;
                 }
                 eventType = xmlPullParser.next();
@@ -126,7 +147,7 @@ public class Utils {
         return  weatherinfo;
     }
 
-    public static int GetWertherImg(String climate){
+    public static int GetWertherImg(String climate){//根据天气状况返回对应图标
         if(climate.equals("暴雪")){
             return(R.mipmap.biz_plugin_weather_baoxue);
         }
@@ -188,7 +209,7 @@ public class Utils {
         }
         return 0;
     }
-    public static int GetPmImg(int pm25){
+    public static int GetPmImg(int pm25){ //根据pm值返回对应图标
         if(pm25<51){
             return (R.mipmap.biz_plugin_weather_0_50);
         }else if(pm25<101){
@@ -209,7 +230,7 @@ public class Utils {
         City_list = db.getAllCity();
     }
     private static  CityDB openCityDB(Context applicationContext) {
-        String path = "/data" + Environment.getDataDirectory().getAbsolutePath()
+        String path = "/data" + Environment.getDataDirectory().getAbsolutePath()//将数据库文件中信息写入到一个文件中
                 + File.separator + applicationContext.getPackageName()
                 + File.separator + "databases1"
                 + File.separator

@@ -2,6 +2,7 @@ package com.myapplication;
 
 /**
  * Created by liyu on 2017/11/1.
+ * 城市信息Bean
  */
 
 public class CityInfo {

@@ -1,5 +1,7 @@
 package com.myapplication;
 
+import java.util.ArrayList;
+
 /**
  * Created by liyu on 17/10/11.
  */
@@ -11,14 +13,26 @@ public class WeatherInfo {
     private String shidu;
     private String pm25;
     private String quality;
-    private String fengxiang;
-    private String fengli;
-    private String date;
-    private String high;
-    private String low;
-    private String type;
 
+    public void setDays(ArrayList<Day> days) {
+        this.Days = days;
+    }
 
+    private ArrayList<Day> Days;
+
+    public Day getYesterday() {
+        return yesterday;
+    }
+
+    public void setYesterday(Day yesterday) {
+        this.yesterday = yesterday;
+    }
+
+    private Day yesterday ;
+
+    public ArrayList<Day> getDays() {
+        return Days;
+    }
 
     public String getCity() {
         return city;
@@ -68,52 +82,54 @@ public class WeatherInfo {
         this.quality = quality;
     }
 
-    public String getFengxiang() {
-        return fengxiang;
+    static class Day {
+        private String fengli;
+        private String date;
+        private String high;
+        private String low;
+        private String type;
+
+        public String getFengli() {
+            return fengli;
+        }
+
+        public void setFengli(String fengli) {
+            this.fengli = fengli;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public String getHigh() {
+            return high;
+        }
+
+        public void setHigh(String high) {
+            this.high = high;
+        }
+
+        public String getLow() {
+            return low;
+        }
+
+        public void setLow(String low) {
+            this.low = low;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
     }
 
-    public void setFengxiang(String fengxiang) {
-        this.fengxiang = fengxiang;
-    }
-
-    public String getFengli() {
-        return fengli;
-    }
-
-    public void setFengli(String fengli) {
-        this.fengli = fengli;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getHigh() {
-        return high;
-    }
-
-    public void setHigh(String high) {
-        this.high = high;
-    }
-
-    public String getLow() {
-        return low;
-    }
-
-    public void setLow(String low) {
-        this.low = low;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
 }

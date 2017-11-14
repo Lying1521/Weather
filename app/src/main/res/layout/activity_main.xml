@@ -224,6 +224,23 @@
                 </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
+        <HorizontalScrollView
+            android:fillViewport="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <GridView
+                    android:id="@+id/weather_week"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                </GridView>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+
     </LinearLayout>
 
 </LinearLayout>

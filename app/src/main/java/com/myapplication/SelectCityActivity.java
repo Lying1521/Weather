@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -24,7 +25,6 @@ public class SelectCityActivity extends Activity implements View.OnClickListener
     private ListView city_list;
     private ImageView back;
     private SelectAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +66,8 @@ public class SelectCityActivity extends Activity implements View.OnClickListener
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         city_code = ((CityInfo)adapter.getItem(position)).getNumber();
         title.setText("当前城市:"+((CityInfo)adapter.getItem(position)).getCity());
+        Log.d("Myweather",((CityInfo)adapter.getItem(position)).getCity()+"|"+((CityInfo)adapter.getItem(position)).getAllFristPY()+"|"+
+        ((CityInfo)adapter.getItem(position)).getAllPY()+"|"+((CityInfo)adapter.getItem(position)).getFirstPY());
         Toast.makeText(this,"当前城市:"+((CityInfo)adapter.getItem(position)).getCity(),Toast.LENGTH_SHORT).show();
     }
 
@@ -85,7 +87,10 @@ public class SelectCityActivity extends Activity implements View.OnClickListener
         if(!city.equals("")){
             List<CityInfo> cityInfos = new ArrayList<>();
             for(CityInfo cityInfo:Utils.City_list){
-                if(cityInfo.getCity().equals(city)){
+                if(cityInfo.getCity().equals(city)
+                        || cityInfo.getAllPY().toLowerCase().equals(city.toLowerCase())
+                        || cityInfo.getFirstPY().toLowerCase().equals(city.toLowerCase())
+                        || cityInfo.getAllFristPY().toLowerCase().equals(city.toLowerCase())){
                     cityInfos.add(cityInfo);
                 }
             }

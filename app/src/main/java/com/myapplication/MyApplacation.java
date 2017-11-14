@@ -11,7 +11,7 @@ public class MyApplacation extends Application {
     public void onCreate() {
         super.onCreate();
         Utils.initContext(getApplicationContext());
-        NetUtil.initHttpManager(getApplicationContext());
-        Utils.GetCityList(getApplicationContext());
+        NetUtil.initHttpManager(getApplicationContext()); //初始化网络连接队列
+        Utils.GetCityList(getApplicationContext()); //从数据库获得城市信息
     }
 }
