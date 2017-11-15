@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,9 +20,10 @@ public class MainActivity extends Activity implements NetWorkCallBack, View.OnCl
     private TextView title,city,time,humidity,temperature_now,week_today,temperature_today,climate,wind,pm_data,pm_quality;
     private ImageView manager,location,share,update,pm25_img,weather_img;
     private GridView weather_week;
-    private String code ;
+    private String code ="101010100";
     private WeatherInfo weatherinfo;
     private WeatherWeekAdapter weatherWeekAdapter;
+    private ProgressBar update_progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,7 @@ public class MainActivity extends Activity implements NetWorkCallBack, View.OnCl
         pm25_img = (ImageView) findViewById(R.id.pm25_img);
         weather_img = (ImageView) findViewById(R.id.weather_img);
         weather_week = (GridView) findViewById(R.id.weather_week);
+        update_progress = (ProgressBar) findViewById(R.id.city_update_progress);
         GetLocalDate();
     }
 
@@ -83,7 +86,7 @@ public class MainActivity extends Activity implements NetWorkCallBack, View.OnCl
     }
 
     private void CheckNetStatus() {//检查手机网络状态
-        code = Utils.ReadString(Utils.City_Code,"101010100");
+        code = Utils.ReadString(Utils.City_Code,code);
         if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE){
             Log.d("myWeather", "网络OK");
             GetWeatherInfo();
@@ -129,7 +132,8 @@ public class MainActivity extends Activity implements NetWorkCallBack, View.OnCl
         }catch (Exception e){
             Toast.makeText(MainActivity.this,"更新失败!",Toast.LENGTH_SHORT).show();
         }
-        update.setEnabled(true);
+        update_progress.setVisibility(View.INVISIBLE);
+        update.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -149,7 +153,8 @@ public class MainActivity extends Activity implements NetWorkCallBack, View.OnCl
     public void onClick(View v) {//处理点击事件
         switch (v.getId()){
             case R.id.city_update://点击刷新
-                update.setEnabled(false);
+                update.setVisibility(View.INVISIBLE);
+                update_progress.setVisibility(View.VISIBLE);
                 CheckNetStatus();
                 break;
             case R.id.city_manager://点击城市选择
@@ -164,7 +169,10 @@ public class MainActivity extends Activity implements NetWorkCallBack, View.OnCl
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //处理Activity返回事件
         if( requestCode == Utils.ResultFromSelectActivity && resultCode == RESULT_OK){
-            code = data.getStringExtra(Utils.City_Code);
+            if(data.getStringExtra(Utils.City_Code)!=null){
+                code = data.getStringExtra(Utils.City_Code);
+            }
+
             Utils.SaveString(Utils.City_Code,code);
             CheckNetStatus();
         }

@@ -39,6 +39,7 @@
         android:layout_margin="10dp"
         android:hint="请输入城市名"
         android:singleLine="true"
+        android:background="@drawable/editviewstyle"
         android:textSize="20dp"
         android:drawableLeft="@android:drawable/ic_search_category_default"/>
     <ListView
