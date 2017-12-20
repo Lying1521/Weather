@@ -102,4 +102,6 @@ public class SelectCityActivity extends Activity implements View.OnClickListener
             adapter.notifyDataSetChanged();
         }
     }
+
+
 }

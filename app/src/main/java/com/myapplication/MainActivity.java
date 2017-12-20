@@ -119,11 +119,14 @@ public class MainActivity extends Activity implements NetWorkCallBack, View.OnCl
             data.add(weatherinfo.getYesterday());
             data.addAll(weatherinfo.getDays());
             weatherWeekAdapter = new WeatherWeekAdapter(getApplicationContext(),data);
+            // 每页显示3个
             int width = getWindowManager().getDefaultDisplay().getWidth()/3;
             ViewGroup.LayoutParams lp = weather_week.getLayoutParams();
             lp.width = width*(weatherinfo.getDays().size()+1);
             weather_week.setLayoutParams(lp);
+            //列数=天数
             weather_week.setNumColumns(weatherinfo.getDays().size()+1);
+            //绑定adapter
             weather_week.setAdapter(weatherWeekAdapter);
             Log.d("myWeather", String.valueOf(weatherinfo.getDays().size()));
             int pm25 = Integer.valueOf(weatherinfo.getPm25());
